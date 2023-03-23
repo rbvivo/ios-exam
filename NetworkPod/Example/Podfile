@@ -1,0 +1,6 @@
+use_frameworks!
+target 'NetworkPod_Tests' do
+  pod 'NetworkPod', :path => '../'
+  
+  
+end

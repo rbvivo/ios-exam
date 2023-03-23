@@ -11,12 +11,12 @@ import Moya
 import RxRelay
 
 public class UserListViewModel {
-    var userList: BehaviorRelay<[User]> = BehaviorRelay(value: [])
+    public var userList: BehaviorRelay<[User]> = BehaviorRelay(value: [])
 
-    var page = 1
-    var loadMore: Bool = true
+    public var page = 1
+    public var loadMore: Bool = true
     
-    func getUsers() {
+    public func getUsers() {
         let moyaProvider = MoyaProvider<UserService>(plugins: [CachePolicyPlugin()])
         moyaProvider.request(.getUserList(params: ["page": page, "results": 20])) { [weak self] result in
             var users = self?.userList.value

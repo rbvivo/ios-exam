@@ -55,6 +55,15 @@ public class UserListViewController: UIViewController {
             self?.tableView.mj_footer?.endRefreshing()
             self?.tableView.reloadData()
         }).disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected.bind { [weak self] indexPath in
+            guard let self = self else { return }
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            let detailViewModel =  UserDetailViewModel(user: self.viewModel.userList.value[indexPath.row])
+            let userDetailViewController = UserDetailViewController()
+            userDetailViewController.viewModel = detailViewModel
+            self.navigationController?.pushViewController(userDetailViewController, animated: true)
+        }.disposed(by: disposeBag)
     }
 }
 

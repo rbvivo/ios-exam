@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserTableViewCell: UITableViewCell {
+public class UserTableViewCell: UITableViewCell {
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -15,7 +15,7 @@ class UserTableViewCell: UITableViewCell {
         return label
     }()
 
-    func setupCell(name: String?) {
+    public func setupCell(name: String?) {
         if nameLabel.superview == nil {
             contentView.addSubview(nameLabel)
             nameLabel.snp.makeConstraints { make in

@@ -43,4 +43,7 @@ TODO: Add long description of the pod here.
   s.dependency 'SnapKit'
   s.dependency 'RxSwift'
   s.dependency 'RxCocoa'
+  s.dependency 'NetworkPod'
+  s.dependency 'Toast'
+  s.dependency 'MJRefresh'
 end

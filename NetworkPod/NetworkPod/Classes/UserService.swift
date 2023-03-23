@@ -8,13 +8,13 @@
 import Foundation
 import Moya
 
-enum UserService {
+public enum UserService {
     case getUserList(params: [String: Any])
 }
 
 extension UserService: TargetType {
     
-    var task: Moya.Task {
+    public var task: Moya.Task {
         var encoding: ParameterEncoding = URLEncoding.default
         switch method {
         case .post:
@@ -29,32 +29,39 @@ extension UserService: TargetType {
         }
     }
     
-    var baseURL: URL {
+    public var baseURL: URL {
         return URL(string: "https://randomuser.me/")!
     }
     
-    var path: String {
+    public var path: String {
         switch self {
         case .getUserList(_):
             return "api"
         }
     }
     
-    var method: Moya.Method {
+    public var method: Moya.Method {
         switch self {
         case .getUserList:
             return .get
         }
     }
     
-    var sampleData: Data {
+    public var sampleData: Data {
         return Data()
     }
     
-    var headers: [String : String]? {
+    public var headers: [String : String]? {
         return [:]
     }
     
-   
-  
+}
+
+extension UserService: CachePolicyGettable {
+    public var cachePolicy: URLRequest.CachePolicy {
+        switch self {
+        case .getUserList:
+            return .returnCacheDataElseLoad
+        }
+    }
 }

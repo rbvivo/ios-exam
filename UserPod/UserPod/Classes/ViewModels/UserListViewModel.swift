@@ -15,9 +15,19 @@ public class UserListViewModel {
 
     public var page = 1
     public var loadMore: Bool = true
+    private var mockEnabled: Bool
+    
+    public init(_ mockEnabled: Bool = false) {
+        self.mockEnabled = mockEnabled
+    }
     
     public func getUsers() {
-        let moyaProvider = MoyaProvider<UserService>(plugins: [CachePolicyPlugin()])
+        var moyaProvider = MoyaProvider<UserService>(plugins: [CachePolicyPlugin()])
+        
+        if mockEnabled {
+            moyaProvider = MoyaProvider<UserService>(endpointClosure: self.customEndpointClosure, stubClosure: MoyaProvider.immediatelyStub)
+        }
+        
         moyaProvider.request(.getUserList(params: ["page": page, "results": 20])) { [weak self] result in
             var users = self?.userList.value
             switch result {
@@ -38,5 +48,9 @@ public class UserListViewModel {
                 self?.userList.accept(users ?? [])
             }
         }
+    }
+    
+    private func customEndpointClosure(_ target: UserService) -> Endpoint {
+        return  Endpoint(url: URL(target: target).absoluteString, sampleResponseClosure: { .networkResponse(200, target.sampleData)}, method: target.method, task: target.task, httpHeaderFields: target.headers)
     }
 }

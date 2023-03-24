@@ -8,9 +8,9 @@
 import Foundation
 
 public class UserDetailViewModel {
-    public var user: User
+    public var user: User?
     
-    public init(user: User) {
+    public init(user: User?) {
         self.user = user
     }
     
@@ -20,8 +20,8 @@ public class UserDetailViewModel {
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         if let date = dateFormatter.date(from: dateString) {
             let newDateFormat = DateFormatter()
-            newDateFormat.dateFormat = "MMM, d, yyyy"
-            newDateFormat.timeZone = .current
+            newDateFormat.dateFormat = "MMM d, yyyy"
+            newDateFormat.timeZone = TimeZone(abbreviation: "UTC")
             return newDateFormat.string(from: date)
         }
         return ""

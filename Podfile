@@ -15,4 +15,9 @@ target 'ios-exam' do
   # Pods for ios-exam
   module_pod('NetworkPod')
   module_pod('UserPod')
+  
+  target 'ios-examTests' do
+     inherit! :search_paths
+   end
+  
 end

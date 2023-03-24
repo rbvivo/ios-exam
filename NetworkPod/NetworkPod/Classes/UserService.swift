@@ -48,7 +48,23 @@ extension UserService: TargetType {
     }
     
     public var sampleData: Data {
-        return Data()
+        var url: URL?
+        switch self {
+        case .getUserList(let params):
+            if let page = params["page"] as? Int {
+                if page == 1  {
+                    url = Bundle(for: CachePolicyPlugin.self).url(forResource: "UserListManyUsers", withExtension: "json")
+                } else {
+                    url = Bundle(for: CachePolicyPlugin.self).url(forResource: "UserListOneUser", withExtension: "json")
+                }
+            }
+        }
+        
+        if let testUrl = url, let data = try? Data(contentsOf: testUrl) {
+            return data
+        } else {
+            return Data()
+        }
     }
     
     public var headers: [String : String]? {

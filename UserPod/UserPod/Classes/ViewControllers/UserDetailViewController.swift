@@ -75,11 +75,11 @@ class UserDetailViewController: UIViewController {
             stackView.addArrangedSubview(mobileLabel)
         }
         
-        nameLabel.text = "\(viewModel?.user.name?.firstName ?? "") \(viewModel?.user.name?.lastName ?? "")"
-        addressLabel.text =  "\(viewModel?.user.address?.street?.number ?? 0) \(viewModel?.user.address?.street?.name ?? ""), \(viewModel?.user.address?.city ?? ""), \(viewModel?.user.address?.state ?? ""), \(viewModel?.user.address?.country ?? "")"
-        birthLabel.text = "Birthday: \(viewModel?.convertDate(dateString: viewModel?.user.birthday?.date ?? "") ?? "") Age: \(viewModel?.user.birthday?.age ?? 0)"
-        emailLabel.text = viewModel?.user.email
-        mobileLabel.text = viewModel?.user.cell
+        nameLabel.text = "\(viewModel?.user?.name?.firstName ?? "") \(viewModel?.user?.name?.lastName ?? "")"
+        addressLabel.text =  "\(viewModel?.user?.address?.street?.number ?? 0) \(viewModel?.user?.address?.street?.name ?? ""), \(viewModel?.user?.address?.city ?? ""), \(viewModel?.user?.address?.state ?? ""), \(viewModel?.user?.address?.country ?? "")"
+        birthLabel.text = "Birthday: \(viewModel?.convertDate(dateString: viewModel?.user?.birthday?.date ?? "") ?? "") Age: \(viewModel?.user?.birthday?.age ?? 0)"
+        emailLabel.text = viewModel?.user?.email
+        mobileLabel.text = viewModel?.user?.cell
         
     }
     

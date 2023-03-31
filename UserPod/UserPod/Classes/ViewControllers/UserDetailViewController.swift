@@ -14,6 +14,7 @@ class UserDetailViewController: UIViewController {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
+        label.accessibilityIdentifier = "nameLabel"
         return label
     }()
     
@@ -21,18 +22,21 @@ class UserDetailViewController: UIViewController {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 0
+        label.accessibilityIdentifier = "addressLabel"
         return label
     }()
     
     private lazy var mobileLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
+        label.accessibilityIdentifier = "mobileLabel"
         return label
     }()
     
     private lazy var emailLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
+        label.accessibilityIdentifier = "emailLabel"
         return label
     }()
     
@@ -40,6 +44,7 @@ class UserDetailViewController: UIViewController {
     private lazy var birthLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
+        label.accessibilityIdentifier = "birthLabel"
         return label
     }()
 

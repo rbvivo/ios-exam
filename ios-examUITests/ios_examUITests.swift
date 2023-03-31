@@ -9,33 +9,79 @@ import XCTest
 
 final class ios_examUITests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var app = XCUIApplication()
 
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+    override func setUp() {
+        super.setUp()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    override func tearDown() {
+        super.tearDown()
+        app.terminate()
+    }
+    
+    func testMainScreen() {
+        givenAppIsLaunched()
+        givenIAmOnTheMainScreen()
+        thenIShouldSeeAstronomyTable()
+        andITapAUser()
+        thenIShouldSeeUserDetails()
+    }
+}
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+extension ios_examUITests {
+    func givenAppIsLaunched() {
+           XCTContext.runActivity(named: "Given the application is ready") { _ in
+               XCTAssertEqual(app.state, .runningForeground)
+           }
+       }
+    
+    func givenIAmOnTheMainScreen() {
+        XCTContext.runActivity(named: "Given the user is on the main screen") { _ in
+            let root = app.navigationBars["rootView"]
+            wait(forElement: root)
+        }
+    }
+    
+    func thenIShouldSeeAstronomyTable() {
+        XCTContext.runActivity(named: "Then I should see a user list") { _ in
+            let userTableViewElement = app.tables["userListTableView"]
+            wait(forElement: userTableViewElement)
+            XCTAssertTrue(userTableViewElement.exists)
+        }
+    }
+    
+    func andITapAUser() {
+        let userCell = app.tables["userListTableView"].cells["userCell0"]
+        wait(forElement: userCell)
+        userCell.tap()
+    }
+    
+    func thenIShouldSeeUserDetails() {
+        XCTContext.runActivity(named: "Then I should see user details") { _ in
+            XCTAssertTrue( app.staticTexts["nameLabel"].exists)
+            XCTAssertTrue( app.staticTexts["addressLabel"].exists)
+            XCTAssertTrue(app.staticTexts["mobileLabel"].exists)
+            XCTAssertTrue( app.staticTexts["birthLabel"].exists)
+            XCTAssertTrue( app.staticTexts["emailLabel"].exists)
+        }
+    }
+    
+}
+
+extension XCTestCase {
+    func wait(forElement element: XCUIElement, timeout: TimeInterval = 5.0) {
+        let predicate = NSPredicate(format: "exists == 1")
+        // This will make the test runner continously evalulate the
+        // predicate, and wait until it matches.
+        let expection = expectation(for: predicate, evaluatedWith: element, handler: nil)
+        let waitResult = XCTWaiter.wait(for: [expection], timeout: timeout)
+        switch waitResult {
+        case .completed:
+            break
+        default:
+            XCTFail("Failed to find element \(element)")
         }
     }
 }

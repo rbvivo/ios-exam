@@ -22,6 +22,7 @@ public class UserListViewController: UIViewController {
         tableView.separatorInset = .zero
         tableView.dataSource = self
         tableView.register(cellWithClass: UserTableViewCell.self)
+        tableView.accessibilityIdentifier = "userListTableView"
         return tableView
     }()
 
@@ -74,6 +75,7 @@ extension UserListViewController: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withClass: UserTableViewCell.self, for: indexPath)
+        cell.accessibilityIdentifier = "userCell\(indexPath.row)"
         cell.setupCell(name: "\(viewModel.userList.value[indexPath.row].name?.firstName ?? "") \(viewModel.userList.value[indexPath.row].name?.lastName ?? "")")
         return cell
     }
